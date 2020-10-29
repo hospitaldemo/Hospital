@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.hospital.mapper.DoctorMapper">
+  <resultMap id="BaseResultMap" type="com.neuedu.hospital.pojo.Doctor">
+    <id column="doctor_id" jdbcType="INTEGER" property="doctorId" />
+    <result column="doctor_iname" jdbcType="VARCHAR" property="doctorIname" />
+    <result column="doctor_icertId" jdbcType="VARCHAR" property="doctorIcertid" />
+    <result column="doctor_img" jdbcType="VARCHAR" property="doctorImg" />
+    <result column="doctor_isex" jdbcType="VARCHAR" property="doctorIsex" />
+    <result column="doctor_idepartment" jdbcType="INTEGER" property="doctorIdepartment" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="doctor_tel" jdbcType="VARCHAR" property="doctorTel" />
+    <result column="doctor_price" jdbcType="DECIMAL" property="doctorPrice" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.neuedu.hospital.pojo.Doctor">
+    <result column="doctor_itext" jdbcType="LONGVARCHAR" property="doctorItext" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    doctor_id, doctor_iname, doctor_icertId, doctor_img, doctor_isex, doctor_idepartment, 
+    password, doctor_tel, doctor_price
+  </sql>
+  <sql id="Blob_Column_List">
+    doctor_itext
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.neuedu.hospital.pojo.DoctorExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.neuedu.hospital.pojo.DoctorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doctor
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from doctor
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.neuedu.hospital.pojo.DoctorExample">
+    delete from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.neuedu.hospital.pojo.Doctor">
+    insert into doctor (doctor_id, doctor_iname, doctor_icertId, 
+      doctor_img, doctor_isex, doctor_idepartment, 
+      password, doctor_tel, doctor_price, 
+      doctor_itext)
+    values (#{doctorId,jdbcType=INTEGER}, #{doctorIname,jdbcType=VARCHAR}, #{doctorIcertid,jdbcType=VARCHAR}, 
+      #{doctorImg,jdbcType=VARCHAR}, #{doctorIsex,jdbcType=VARCHAR}, #{doctorIdepartment,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{doctorTel,jdbcType=VARCHAR}, #{doctorPrice,jdbcType=DECIMAL}, 
+      #{doctorItext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.neuedu.hospital.pojo.Doctor">
+    insert into doctor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="doctorIname != null">
+        doctor_iname,
+      </if>
+      <if test="doctorIcertid != null">
+        doctor_icertId,
+      </if>
+      <if test="doctorImg != null">
+        doctor_img,
+      </if>
+      <if test="doctorIsex != null">
+        doctor_isex,
+      </if>
+      <if test="doctorIdepartment != null">
+        doctor_idepartment,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="doctorTel != null">
+        doctor_tel,
+      </if>
+      <if test="doctorPrice != null">
+        doctor_price,
+      </if>
+      <if test="doctorItext != null">
+        doctor_itext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="doctorIname != null">
+        #{doctorIname,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIcertid != null">
+        #{doctorIcertid,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorImg != null">
+        #{doctorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIsex != null">
+        #{doctorIsex,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIdepartment != null">
+        #{doctorIdepartment,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTel != null">
+        #{doctorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorPrice != null">
+        #{doctorPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorItext != null">
+        #{doctorItext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.neuedu.hospital.pojo.DoctorExample" resultType="java.lang.Integer">
+    select count(*) from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update doctor
+    <set>
+      <if test="record.doctorId != null">
+        doctor_id = #{record.doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.doctorIname != null">
+        doctor_iname = #{record.doctorIname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorIcertid != null">
+        doctor_icertId = #{record.doctorIcertid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorImg != null">
+        doctor_img = #{record.doctorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorIsex != null">
+        doctor_isex = #{record.doctorIsex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorIdepartment != null">
+        doctor_idepartment = #{record.doctorIdepartment,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorTel != null">
+        doctor_tel = #{record.doctorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorPrice != null">
+        doctor_price = #{record.doctorPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.doctorItext != null">
+        doctor_itext = #{record.doctorItext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update doctor
+    set doctor_id = #{record.doctorId,jdbcType=INTEGER},
+      doctor_iname = #{record.doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{record.doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{record.doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{record.doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{record.doctorIdepartment,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      doctor_tel = #{record.doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{record.doctorPrice,jdbcType=DECIMAL},
+      doctor_itext = #{record.doctorItext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update doctor
+    set doctor_id = #{record.doctorId,jdbcType=INTEGER},
+      doctor_iname = #{record.doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{record.doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{record.doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{record.doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{record.doctorIdepartment,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      doctor_tel = #{record.doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{record.doctorPrice,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neuedu.hospital.pojo.Doctor">
+    update doctor
+    <set>
+      <if test="doctorIname != null">
+        doctor_iname = #{doctorIname,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIcertid != null">
+        doctor_icertId = #{doctorIcertid,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorImg != null">
+        doctor_img = #{doctorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIsex != null">
+        doctor_isex = #{doctorIsex,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIdepartment != null">
+        doctor_idepartment = #{doctorIdepartment,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTel != null">
+        doctor_tel = #{doctorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorPrice != null">
+        doctor_price = #{doctorPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorItext != null">
+        doctor_itext = #{doctorItext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.neuedu.hospital.pojo.Doctor">
+    update doctor
+    set doctor_iname = #{doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{doctorIdepartment,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      doctor_tel = #{doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{doctorPrice,jdbcType=DECIMAL},
+      doctor_itext = #{doctorItext,jdbcType=LONGVARCHAR}
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neuedu.hospital.pojo.Doctor">
+    update doctor
+    set doctor_iname = #{doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{doctorIdepartment,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      doctor_tel = #{doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{doctorPrice,jdbcType=DECIMAL}
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.neuedu.hospital.pojo.Doctor">
+    <id column="doctor_id" jdbcType="INTEGER" property="doctorId" />
+    <result column="doctor_iname" jdbcType="VARCHAR" property="doctorIname" />
+    <result column="doctor_icertId" jdbcType="VARCHAR" property="doctorIcertid" />
+    <result column="doctor_img" jdbcType="VARCHAR" property="doctorImg" />
+    <result column="doctor_isex" jdbcType="VARCHAR" property="doctorIsex" />
+    <result column="doctor_idepartment" jdbcType="INTEGER" property="doctorIdepartment" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="doctor_tel" jdbcType="VARCHAR" property="doctorTel" />
+    <result column="doctor_price" jdbcType="DECIMAL" property="doctorPrice" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.neuedu.hospital.pojo.Doctor">
+    <result column="doctor_itext" jdbcType="LONGVARCHAR" property="doctorItext" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    doctor_id, doctor_iname, doctor_icertId, doctor_img, doctor_isex, doctor_idepartment, 
+    password, doctor_tel, doctor_price
+  </sql>
+  <sql id="Blob_Column_List">
+    doctor_itext
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.neuedu.hospital.pojo.DoctorExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.neuedu.hospital.pojo.DoctorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from doctor
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from doctor
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.neuedu.hospital.pojo.DoctorExample">
+    delete from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.neuedu.hospital.pojo.Doctor">
+    insert into doctor (doctor_id, doctor_iname, doctor_icertId, 
+      doctor_img, doctor_isex, doctor_idepartment, 
+      password, doctor_tel, doctor_price, 
+      doctor_itext)
+    values (#{doctorId,jdbcType=INTEGER}, #{doctorIname,jdbcType=VARCHAR}, #{doctorIcertid,jdbcType=VARCHAR}, 
+      #{doctorImg,jdbcType=VARCHAR}, #{doctorIsex,jdbcType=VARCHAR}, #{doctorIdepartment,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{doctorTel,jdbcType=VARCHAR}, #{doctorPrice,jdbcType=DECIMAL}, 
+      #{doctorItext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.neuedu.hospital.pojo.Doctor">
+    insert into doctor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="doctorIname != null">
+        doctor_iname,
+      </if>
+      <if test="doctorIcertid != null">
+        doctor_icertId,
+      </if>
+      <if test="doctorImg != null">
+        doctor_img,
+      </if>
+      <if test="doctorIsex != null">
+        doctor_isex,
+      </if>
+      <if test="doctorIdepartment != null">
+        doctor_idepartment,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="doctorTel != null">
+        doctor_tel,
+      </if>
+      <if test="doctorPrice != null">
+        doctor_price,
+      </if>
+      <if test="doctorItext != null">
+        doctor_itext,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="doctorIname != null">
+        #{doctorIname,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIcertid != null">
+        #{doctorIcertid,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorImg != null">
+        #{doctorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIsex != null">
+        #{doctorIsex,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIdepartment != null">
+        #{doctorIdepartment,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTel != null">
+        #{doctorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorPrice != null">
+        #{doctorPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorItext != null">
+        #{doctorItext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.neuedu.hospital.pojo.DoctorExample" resultType="java.lang.Integer">
+    select count(*) from doctor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update doctor
+    <set>
+      <if test="record.doctorId != null">
+        doctor_id = #{record.doctorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.doctorIname != null">
+        doctor_iname = #{record.doctorIname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorIcertid != null">
+        doctor_icertId = #{record.doctorIcertid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorImg != null">
+        doctor_img = #{record.doctorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorIsex != null">
+        doctor_isex = #{record.doctorIsex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorIdepartment != null">
+        doctor_idepartment = #{record.doctorIdepartment,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorTel != null">
+        doctor_tel = #{record.doctorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doctorPrice != null">
+        doctor_price = #{record.doctorPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.doctorItext != null">
+        doctor_itext = #{record.doctorItext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update doctor
+    set doctor_id = #{record.doctorId,jdbcType=INTEGER},
+      doctor_iname = #{record.doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{record.doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{record.doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{record.doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{record.doctorIdepartment,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      doctor_tel = #{record.doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{record.doctorPrice,jdbcType=DECIMAL},
+      doctor_itext = #{record.doctorItext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update doctor
+    set doctor_id = #{record.doctorId,jdbcType=INTEGER},
+      doctor_iname = #{record.doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{record.doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{record.doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{record.doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{record.doctorIdepartment,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      doctor_tel = #{record.doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{record.doctorPrice,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.neuedu.hospital.pojo.Doctor">
+    update doctor
+    <set>
+      <if test="doctorIname != null">
+        doctor_iname = #{doctorIname,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIcertid != null">
+        doctor_icertId = #{doctorIcertid,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorImg != null">
+        doctor_img = #{doctorImg,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIsex != null">
+        doctor_isex = #{doctorIsex,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorIdepartment != null">
+        doctor_idepartment = #{doctorIdepartment,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTel != null">
+        doctor_tel = #{doctorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorPrice != null">
+        doctor_price = #{doctorPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="doctorItext != null">
+        doctor_itext = #{doctorItext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.neuedu.hospital.pojo.Doctor">
+    update doctor
+    set doctor_iname = #{doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{doctorIdepartment,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      doctor_tel = #{doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{doctorPrice,jdbcType=DECIMAL},
+      doctor_itext = #{doctorItext,jdbcType=LONGVARCHAR}
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.neuedu.hospital.pojo.Doctor">
+    update doctor
+    set doctor_iname = #{doctorIname,jdbcType=VARCHAR},
+      doctor_icertId = #{doctorIcertid,jdbcType=VARCHAR},
+      doctor_img = #{doctorImg,jdbcType=VARCHAR},
+      doctor_isex = #{doctorIsex,jdbcType=VARCHAR},
+      doctor_idepartment = #{doctorIdepartment,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      doctor_tel = #{doctorTel,jdbcType=VARCHAR},
+      doctor_price = #{doctorPrice,jdbcType=DECIMAL}
+    where doctor_id = #{doctorId,jdbcType=INTEGER}
+  </update>
+</mapper>
